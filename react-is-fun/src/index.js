@@ -1,16 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-let style = {
-  backgroundColor: 'orange',
-  color: 'white',
-  fontFamily: 'Ariel',
-};
+class Message extends React.Component {
+  render() {
+    return (
+      <div>
+        <h1>Hello Everyone</h1>
+      </div>
+    );
+  }
+}
 
-ReactDOM.render(
-  <div>
-    <h1>Hello World!</h1>
-    <p>So long and thanks for all the fish.</p>
-  </div>,
-  document.getElementById('root'),
-);
+ReactDOM.render(<Message />, document.getElementById('root'));
