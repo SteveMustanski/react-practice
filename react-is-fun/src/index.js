@@ -30,10 +30,18 @@ const Book = ({ title, author, pages }) => {
 };
 
 class Library extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: true,
+    };
+  }
   render() {
+    console.log(this.state);
     const books = this.props.books;
     return (
       <div>
+        <h1>The library is {this.state.open ? 'open' : 'closed'}.</h1>
         {books.map((book, i) => (
           <Book
             key={i}
