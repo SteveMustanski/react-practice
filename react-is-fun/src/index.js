@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
+import Proptypes from 'prop-types';
 
 let bookList = [
   {
@@ -123,5 +124,16 @@ class Library extends Component {
     );
   }
 }
+
+Library.propTypes = {
+  books: Proptypes.array,
+};
+
+Book.propTypes = {
+  title: Proptypes.string,
+  author: Proptypes.string,
+  pages: Proptypes.number,
+  freeBookmark: Proptypes.bool,
+};
 
 render(<Library books={bookList} />, document.getElementById('root'));
