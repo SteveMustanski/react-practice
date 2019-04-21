@@ -51,7 +51,20 @@ class Library extends Component {
     open: true,
     freeBookmark: true,
     hiring: true,
+    data: [],
+    loading: false,
   };
+
+  componentDidMount() {
+    this.setState({ laoding: true });
+    fetch('https://hplussport.com/api/products/order/price/sort/asc/qty/1')
+      .then(data => data.json())
+      .then(data => this.setState({ data, loading: false }));
+  }
+
+  componentDidUpdate() {
+    console.log('The component just updated');
+  }
 
   toggleOpenClosed = () => {
     this.setState(prevState => ({
@@ -65,6 +78,25 @@ class Library extends Component {
       <div>
         <h1>The library is {this.state.open ? 'open' : 'closed'}.</h1>
         {this.state.hiring ? <Hiring /> : <NotHiring />}
+        {this.state.loading ? (
+          'loading....'
+        ) : (
+          <div>
+            {this.state.data.map((product, i) => {
+              return (
+                <div key={i}>
+                  <h3>Library Product of the week</h3>
+                  <h4>{product.name}</h4>
+                  <img
+                    src={product.image}
+                    height={100}
+                    alt='product of the week'
+                  />
+                </div>
+              );
+            })}
+          </div>
+        )}
         <button onClick={this.toggleOpenClosed}>
           {this.state.open ? 'Close Library' : 'Open Library'}
         </button>
