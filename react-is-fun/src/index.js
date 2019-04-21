@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { render } from 'react-dom';
 import Proptypes from 'prop-types';
+import { Library } from './Library';
 
 let bookList = [
   {
@@ -20,120 +21,8 @@ let bookList = [
   },
 ];
 
-const Book = ({
-  title = 'No Title',
-  author = 'No author',
-  pages = 0,
-  freeBookmark,
-}) => {
-  return (
-    <section>
-      <h1>{title}</h1>
-      <p>by {author}</p>
-      <p>pages: {pages}</p>
-      <p>Free Bookmark today: {freeBookmark ? 'yes!' : 'no.'}</p>
-    </section>
-  );
-};
-
-const Hiring = () => {
-  return (
-    <div>
-      <p>The library is hiring. Check careers link for more information.</p>
-    </div>
-  );
-};
-
-const NotHiring = () => {
-  return (
-    <div>
-      <p>The library is not hiring. Check back later.</p>
-    </div>
-  );
-};
-
-class Library extends Component {
-  static defaultProps = {
-    books: [
-      { title: 'Think and Grow Rich', author: 'Napolion Hill', pages: 432 },
-    ],
-  };
-  state = {
-    open: true,
-    freeBookmark: true,
-    hiring: true,
-    data: [],
-    loading: false,
-  };
-
-  componentDidMount() {
-    this.setState({ laoding: true });
-    fetch('https://hplussport.com/api/products/order/price/sort/asc/qty/1')
-      .then(data => data.json())
-      .then(data => this.setState({ data, loading: false }));
-  }
-
-  componentDidUpdate() {
-    console.log('The component just updated');
-  }
-
-  toggleOpenClosed = () => {
-    this.setState(prevState => ({
-      open: !prevState.open,
-    }));
-  };
-
-  render() {
-    const books = this.props.books;
-    return (
-      <div>
-        <h1>The library is {this.state.open ? 'open' : 'closed'}.</h1>
-        {this.state.hiring ? <Hiring /> : <NotHiring />}
-        {this.state.loading ? (
-          'loading....'
-        ) : (
-          <div>
-            {this.state.data.map((product, i) => {
-              return (
-                <div key={i}>
-                  <h3>Library Product of the week</h3>
-                  <h4>{product.name}</h4>
-                  <img
-                    src={product.image}
-                    height={100}
-                    alt='product of the week'
-                  />
-                </div>
-              );
-            })}
-          </div>
-        )}
-        <button onClick={this.toggleOpenClosed}>
-          {this.state.open ? 'Close Library' : 'Open Library'}
-        </button>
-        {books.map((book, i) => (
-          <Book
-            key={i}
-            title={book.title}
-            author={book.author}
-            pages={book.pages}
-            freeBookmark={this.state.freeBookmark}
-          />
-        ))}
-      </div>
-    );
-  }
-}
-
 Library.propTypes = {
   books: Proptypes.array,
-};
-
-Book.propTypes = {
-  title: Proptypes.string,
-  author: Proptypes.string,
-  pages: Proptypes.number,
-  freeBookmark: Proptypes.bool,
 };
 
 render(<Library books={bookList} />, document.getElementById('root'));
